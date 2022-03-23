@@ -1,6 +1,6 @@
 import { doc, setDoc } from "firebase/firestore";
-import { OrdersDB } from "../@firebase/FirebaseInitialize";
-
+import { OrdersDB } from "../db/FirebaseInitialize";
+import uniqid from "uniqid";
 export class CreateOrder {
   async execute({ client, created_at, description, items, location, order_id, price }: ICreateOrder) {
     try {
@@ -16,7 +16,7 @@ export class CreateOrder {
       });
       return true;
     } catch (e) {
-      return e
+      return e;
     }
   }
 }

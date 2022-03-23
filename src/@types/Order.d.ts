@@ -17,7 +17,7 @@ declare interface ICreateOrder {
   order_id: string;
   client: string;
   description: string;
-  created_at: date;
+  created_at: Date;
   location: Locale;
   items: Item[];
   price: number;

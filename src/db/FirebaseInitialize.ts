@@ -1,6 +1,5 @@
 import { getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import "dotenv/config";
 
 const FirebaseConfig = {
@@ -13,7 +12,8 @@ const FirebaseConfig = {
   measurementId: process.env.MEASUREMENTID,
 };
 
+console.log(FirebaseConfig)
+
 const app = initializeApp(FirebaseConfig);
 const OrdersDB = getFirestore(app);
-const analytics = getAnalytics(app);
-export { app, analytics, OrdersDB };
+export { app, OrdersDB };
