@@ -4,6 +4,7 @@ declare interface Item {
   price: number;
   description: string;
 }
+
 declare interface Locale {
   bairro: string;
   rua: string;
@@ -11,21 +12,14 @@ declare interface Locale {
   quadra?: string;
   reference: string;
 }
-declare interface IOrder {
-  id: string;
+
+declare interface ICreateOrder {
+  order_id: string;
   client: string;
   description: string;
-  price: number;
   created_at: date;
-  items: Item[];
   location: Locale;
-}
-declare interface OrderDTO {
-  id: string;
-  client: string;
-  description: string;
+  items: Item[];
   price: number;
-  created_at: date;
-  items: Item[];
-  location: Locale;
 }
+
