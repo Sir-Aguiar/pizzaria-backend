@@ -1,0 +1,2 @@
+## Funcionalidades
+- Realizar um pedido
