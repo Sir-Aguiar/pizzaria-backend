@@ -21,21 +21,22 @@ export class CreateOrder {
   }
 
   async execute(test = false) {
-    try {
-      const collectionString = `${test ? "Pedidos_Teste" : "Pedidos"}`;
-      const documentRef = doc(OrdersDB, collectionString, this.order_id);
-      const order = await setDoc(documentRef, {
-        id: this.order_id,
-        cliente: this.client,
-        description: this.description,
-        produtos: this.produtos,
-        data: this.data,
-        preco: this.price,
-        endereco: this.endereco,
+    const collectionString = `${test ? "Pedidos_Teste" : "Pedidos"}`;
+    const documentRef = doc(OrdersDB, collectionString, this.order_id);
+    setDoc(documentRef, {
+      id: this.order_id,
+      cliente: this.client,
+      description: this.description,
+      produtos: this.produtos,
+      data: this.data,
+      preco: this.price,
+      endereco: this.endereco,
+    })
+      .then(() => {
+        return true;
+      })
+      .catch((e) => {
+        return e;
       });
-      return true;
-    } catch (e) {
-      return e;
-    }
   }
 }

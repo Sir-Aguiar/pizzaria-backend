@@ -12,7 +12,6 @@ const FirebaseConfig = {
   measurementId: process.env.MEASUREMENTID,
 };
 
-
 const app = initializeApp(FirebaseConfig);
 const OrdersDB = getFirestore(app);
 export { app, OrdersDB };

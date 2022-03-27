@@ -22,4 +22,3 @@ declare interface ICreateOrder {
   items: Item[];
   price: number;
 }
-
