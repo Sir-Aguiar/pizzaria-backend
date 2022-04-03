@@ -1,5 +1,5 @@
 import { deleteDoc, doc } from "firebase/firestore";
-import { OrdersDB } from "../../db/FirebaseInitialize";
+import { OrdersDB } from "../../Firebase/FirebaseInitialize";
 
 export class RemoveOrder {
   constructor(readonly orderId: string) {}
