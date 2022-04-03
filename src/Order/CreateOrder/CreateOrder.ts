@@ -44,6 +44,7 @@ export class CreateOrder {
         preco: this.price,
         endereco: this.endereco,
         status: this.status,
+        code: credentialCode,
       });
       await setDoc(credentialDocLocale, {
         client: this.client,
