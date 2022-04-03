@@ -1,4 +1,4 @@
-import uniqid from 'uniqid'
+import uniqid from "uniqid";
 export const Order_1 = {
   client: "Felipe",
   created_at: new Date(),
@@ -19,4 +19,4 @@ export const Order_1 = {
   },
   order_id: uniqid(),
   price: 50.5,
-}
+};

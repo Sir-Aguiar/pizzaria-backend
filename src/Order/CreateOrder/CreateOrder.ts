@@ -49,9 +49,18 @@ export class CreateOrder {
         client: this.client,
         order: this.order_id,
       });
-      return true;
-    } catch (e) {
-      return [false, e];
+      return {
+        status: true,
+        credentials: {
+          passCode: credentialCode,
+          client: this.client,
+        },
+      };
+    } catch (error) {
+      return {
+        status: false,
+        error: error,
+      };
     }
   }
 }
