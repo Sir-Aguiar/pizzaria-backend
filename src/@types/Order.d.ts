@@ -21,4 +21,5 @@ declare interface ICreateOrder {
   location: Locale;
   items: Item[];
   price: number;
+  phone:string;
 }

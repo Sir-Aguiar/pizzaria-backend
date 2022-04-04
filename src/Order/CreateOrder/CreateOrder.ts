@@ -9,6 +9,7 @@ export class CreateOrder {
   public readonly price: number;
   public readonly endereco: Locale;
   public readonly data: Date;
+  public readonly phone: string;
   public status: string;
   constructor(public readonly props: ICreateOrder, status = "Pendente") {
     this.order_id = props.order_id;
@@ -18,7 +19,9 @@ export class CreateOrder {
     this.price = props.price;
     this.endereco = props.location;
     this.data = props.created_at;
+    this.phone = props.phone;
     this.status = status;
+
   }
   private generateCredential() {
     let preCredential = "";
@@ -45,6 +48,7 @@ export class CreateOrder {
         endereco: this.endereco,
         status: this.status,
         code: credentialCode,
+        tel: this.phone
       });
       await setDoc(credentialDocLocale, {
         client: this.client,
