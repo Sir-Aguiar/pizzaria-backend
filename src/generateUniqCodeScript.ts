@@ -2,9 +2,9 @@ import { arrayUnion, doc, DocumentSnapshot, getDoc, updateDoc } from "firebase/f
 import { OrdersDB } from "./Firebase/FirebaseInitialize";
 
 class UniqScript {
-  public randomCode: number;
+  public uniqCode: number;
   constructor() {
-    this.randomCode = this.createSolidCode();
+    this.uniqCode = this.createSolidCode();
   }
   private generateCode(): number {
     let randomNumber = Math.trunc(Math.abs(Math.random() * 9999999999));

@@ -7,6 +7,20 @@ export declare class CreateOrder {
     readonly price: number;
     readonly endereco: Locale;
     readonly data: Date;
-    constructor(props: ICreateOrder);
-    execute(test?: boolean): Promise<unknown>;
+    readonly phone: string;
+    status: string;
+    constructor(props: ICreateOrder, status?: string);
+    private generateCredential;
+    execute(test?: boolean): Promise<{
+        status: boolean;
+        credentials: {
+            passCode: number;
+            client: string;
+        };
+        error?: undefined;
+    } | {
+        status: boolean;
+        error: unknown;
+        credentials?: undefined;
+    }>;
 }
