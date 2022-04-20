@@ -23,7 +23,7 @@
     "test": "jest --detectOpenHandles",
     "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/index.ts",
     "compile": "tsc",
-    "production": "npm run build/index.js"
+    "production": "npm run build/src/index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
