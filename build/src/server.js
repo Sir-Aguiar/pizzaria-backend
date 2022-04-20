@@ -9,11 +9,12 @@ const express_1 = __importDefault(require("express"));
 const CreateOrderController_1 = require("./Order/CreateOrder/Controllers/CreateOrderController");
 const RemoveOrderController_1 = require("./Order/RemoveOrder/Controllers/RemoveOrderController");
 const GetProductsController_1 = require("./Products/GetProducts/Controllers/GetProductsController");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 exports.app = app;
-/* app.use(cors({
-  origin: ['']
-})); */
+app.use((0, cors_1.default)({
+    origin: "*",
+}));
 app.use(express_1.default.json());
 app.post("/new-order", CreateOrderController_1.CreateOrderController);
 app.delete("/remove-order/:orderId/:passCode", RemoveOrderController_1.RemoveOrderController);
