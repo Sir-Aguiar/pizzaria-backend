@@ -30,7 +30,7 @@ const generateUniqCodeScript_1 = require("./generateUniqCodeScript");
 const insertToData = async () => {
     menu.Lanches.forEach((lanche) => {
         (0, firestore_1.updateDoc)((0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Menus", "TestePizzariaMenu"), {
-            Produtos: (0, firestore_1.arrayUnion)({
+            Lanches: (0, firestore_1.arrayUnion)({
                 name: lanche.name,
                 description: lanche.description,
                 price: lanche.price,

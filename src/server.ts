@@ -4,6 +4,7 @@ import { CreateOrderController } from "./Order/CreateOrder/Controllers/CreateOrd
 import { RemoveOrderController } from "./Order/RemoveOrder/Controllers/RemoveOrderController";
 import { GetProductsController } from "./Products/GetProducts/Controllers/GetProductsController";
 import cors from "cors";
+import { InsertProductController } from "./Products/InsertProduct/Controllers/InsertProductController";
 const app = express();
 app.use(
   cors({
@@ -15,4 +16,5 @@ app.use(express.json());
 app.post("/new-order", CreateOrderController);
 app.delete("/remove-order/:orderId/:passCode", RemoveOrderController);
 app.get("/get-products/:org", GetProductsController);
+app.post("/new-product/:store/:food_type", InsertProductController);
 export { app };
