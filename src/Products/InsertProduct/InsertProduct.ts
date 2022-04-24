@@ -1,24 +1,43 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, DocumentSnapshot, getDoc, updateDoc } from "firebase/firestore";
 import { OrdersDB } from "../../Firebase/FirebaseInitialize";
 import { UniqScript } from "../../generateUniqCodeScript";
 
-const InsertNewProduct = async (store: string, foodType: string, newProduct: CreateProduct) => {
-  const myCode = new UniqScript();
-  const docReference = doc(OrdersDB, "Menus", store);
-  const InsertingObject: any = {};
-  InsertingObject[foodType] = arrayUnion({
-    _id: myCode.uniqCode,
-    description: newProduct.description,
-    images: {
-      medium: newProduct.images.medium,
-      small: newProduct.images.small,
-    },
-    name: newProduct.name,
-    price: newProduct.price,
-  });
-  await updateDoc(docReference, InsertingObject);
-  return myCode.uniqCode;
-};
+class InsertNewProduct {
+  constructor(
+    private credentials: EmployeeCredential,
+    private newProduct: CreateProduct,
+    private foodType: string,
+    private store: string
+  ) {}
+  private async IsCredentialsValid(): Promise<boolean> {
+    const documentRef = doc(OrdersDB, "Users", this.credentials.employee);
+    const userDocument = (await getDoc(documentRef)) as DocumentSnapshot<EmployeeOnDataBase>;
+    if (Number(this.credentials._id) === userDocument.data()?._id && this.credentials.employee === userDocument.id) {
+      return true;
+    }
+    return false;
+  }
+  public async insertProduct() {
+    if (await this.IsCredentialsValid()) {
+      const myCode = new UniqScript();
+      const docReference = doc(OrdersDB, "Menus", this.store);
+      const InsertingObject: any = {};
+      InsertingObject[this.foodType] = arrayUnion({
+        _id: myCode.uniqCode,
+        description: this.newProduct.description,
+        images: {
+          medium: this.newProduct.images.medium,
+          small: this.newProduct.images.small,
+        },
+        name: this.newProduct.name,
+        price: this.newProduct.price,
+      });
+      await updateDoc(docReference, InsertingObject);
+      return myCode.uniqCode;
+    }
+    throw new Error("Wrong credentials");
+  }
+}
 
 export { InsertNewProduct };
