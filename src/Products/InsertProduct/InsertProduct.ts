@@ -36,7 +36,7 @@ class InsertNewProduct {
       await updateDoc(docReference, InsertingObject);
       return myCode.uniqCode;
     }
-    throw new Error("Wrong credentials");
+    throw new Error("Credenciais de acesso inválidas");
   }
 }
 

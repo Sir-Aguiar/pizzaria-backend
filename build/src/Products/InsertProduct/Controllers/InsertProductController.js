@@ -5,7 +5,9 @@ const InsertProduct_1 = require("../InsertProduct");
 const InsertProductController = async (req, res) => {
     const { description, name, images, price } = req.body;
     const { store, food_type } = req.params;
-    (0, InsertProduct_1.InsertNewProduct)(store, food_type, {
+    const employee = req.header("employee") || "";
+    const _id = req.header("_id") || "";
+    const myProduct = new InsertProduct_1.InsertNewProduct({ _id: _id, employee: employee }, {
         description: description,
         name: name,
         images: {
@@ -13,10 +15,17 @@ const InsertProductController = async (req, res) => {
             medium: images.medium,
         },
         price: price,
-    }).then((code) => {
-        res.status(201);
-        res.json({
-            message: `Seu produto foi inserido com sucesso, código do produto: ${code}`,
+    }, food_type, store);
+    myProduct
+        .insertProduct()
+        .then((response) => {
+        res.status(201).json({
+            code: response,
+        });
+    })
+        .catch((error) => {
+        res.status(400).json({
+            error: error.message,
         });
     });
 };

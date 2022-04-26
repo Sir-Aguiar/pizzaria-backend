@@ -1,2 +1,10 @@
-declare const InsertNewProduct: (store: string, foodType: string, newProduct: CreateProduct) => Promise<number>;
+declare class InsertNewProduct {
+    private credentials;
+    private newProduct;
+    private foodType;
+    private store;
+    constructor(credentials: EmployeeCredential, newProduct: CreateProduct, foodType: string, store: string);
+    private IsCredentialsValid;
+    insertProduct(): Promise<number>;
+}
 export { InsertNewProduct };
