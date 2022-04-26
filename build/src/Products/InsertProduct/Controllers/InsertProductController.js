@@ -20,18 +20,17 @@ const InsertProductController = async (req, res) => {
         _id: _id,
         employee: employee,
     };
-    const myProduct = new InsertProduct_1.InsertNewProduct(acessCredentials, newProduct, food_type, store);
-    myProduct
-        .insertProduct()
-        .then((response) => {
+    try {
+        const myProduct = new InsertProduct_1.InsertNewProduct(acessCredentials, newProduct, food_type, store);
+        const response = await myProduct.insertProduct();
         res.status(201).json({
             code: response,
         });
-    })
-        .catch((error) => {
+    }
+    catch (error) {
         res.status(400).json({
             error: error.message,
         });
-    });
+    }
 };
 exports.InsertProductController = InsertProductController;
