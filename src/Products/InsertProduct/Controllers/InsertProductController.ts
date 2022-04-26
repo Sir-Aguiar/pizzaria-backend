@@ -1,25 +1,28 @@
-import { Request, response, Response } from "express";
+import { Request, Response } from "express";
 import { InsertNewProduct } from "../InsertProduct";
 
 const InsertProductController = async (req: Request, res: Response) => {
-  const { description, name, images, price } = req.body;
+  const body = req.body;
   const { store, food_type } = req.params;
   const employee = req.header("employee") || "";
   const _id = req.header("_id") || "";
-  const myProduct = new InsertNewProduct(
-    { _id: _id, employee: employee },
-    {
-      description: description,
-      name: name,
-      images: {
-        small: images.small,
-        medium: images.medium,
-      },
-      price: price,
+
+  const newProduct = {
+    description: body.description,
+    name: body.name,
+    images: {
+      small: body.images.small,
+      medium: body.images.medium,
     },
-    food_type,
-    store
-  );
+    price: body.price,
+  };
+
+  const acessCredentials = {
+    _id: _id,
+    employee: employee,
+  };
+
+  const myProduct = new InsertNewProduct(acessCredentials, newProduct, food_type, store);
   myProduct
     .insertProduct()
     .then((response) => {

@@ -3,19 +3,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.InsertProductController = void 0;
 const InsertProduct_1 = require("../InsertProduct");
 const InsertProductController = async (req, res) => {
-    const { description, name, images, price } = req.body;
+    const body = req.body;
     const { store, food_type } = req.params;
     const employee = req.header("employee") || "";
     const _id = req.header("_id") || "";
-    const myProduct = new InsertProduct_1.InsertNewProduct({ _id: _id, employee: employee }, {
-        description: description,
-        name: name,
+    const newProduct = {
+        description: body.description,
+        name: body.name,
         images: {
-            small: images.small,
-            medium: images.medium,
+            small: body.images.small,
+            medium: body.images.medium,
         },
-        price: price,
-    }, food_type, store);
+        price: body.price,
+    };
+    const acessCredentials = {
+        _id: _id,
+        employee: employee,
+    };
+    const myProduct = new InsertProduct_1.InsertNewProduct(acessCredentials, newProduct, food_type, store);
     myProduct
         .insertProduct()
         .then((response) => {
