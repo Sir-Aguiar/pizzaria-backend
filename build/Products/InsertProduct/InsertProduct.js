@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InsertNewProduct = void 0;
-/* eslint-disable @typescript-eslint/no-explicit-any */
 const firestore_1 = require("firebase/firestore");
 const FirebaseInitialize_1 = require("../../Firebase/FirebaseInitialize");
 const generateUniqCodeScript_1 = require("../../generateUniqCodeScript");

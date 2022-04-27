@@ -1,4 +1,5 @@
 {
+  "type": "commonjs",
   "devDependencies": {
     "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
@@ -23,15 +24,14 @@
   "scripts": {
     "test": "jest --detectOpenHandles",
     "ts-start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/index.ts",
-    "start":"nodemon build/src/index.js",
-    "compile": "tsc --watch",
+    "start": "nodemon build/index.js",
+    "compile": "tsc --watch --esModuleInterop --strict --removeComments --allowJs --module commonjs --target es2020",
     "production": "node build/src/index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "firebase": "^9.6.9",
     "install": "^0.13.0",
     "npm": "^8.5.5",
     "uniqid": "^5.4.0"
