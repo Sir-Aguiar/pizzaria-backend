@@ -25,7 +25,7 @@
     "test": "jest --detectOpenHandles",
     "ts-start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/index.ts",
     "start": "nodemon build/index.js",
-    "compile": "tsc --watch --esModuleInterop --strict --removeComments --allowJs --module commonjs --target es2020",
+    "compile": "tsc --watch --esModuleInterop --strict --removeComments --allowJs --module commonjs --target es2021",
     "production": "node build/src/index.js"
   },
   "dependencies": {
