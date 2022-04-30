@@ -32,12 +32,32 @@ class CreateOrder implements ICreateOrder {
       };
     } catch (e) {
       return {
-        status:false,
-        error: e
+        status: false,
+        error: e,
+      };
+    }
+  }
+  private async execute() {
+    const docLocal = doc(OrdersDB, "Pedidos", this.orderId.toString());
+    const orderDoc: Order = {
+      client: this.client,
+      createdAt: this.createdAt,
+      items: this.items,
+      location: this.location,
+      phone: this.phone,
+      price: this.price,
+    };
+    try {
+      const credentials = await this.setCredentials();
+      await setDoc(docLocal, orderDoc);
+      return credentials;
+    } catch (e) {
+      return {
+        status: false,
+        error: e,
       };
     }
   }
 }
 
 export { CreateOrder };
-

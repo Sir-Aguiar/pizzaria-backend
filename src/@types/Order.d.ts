@@ -5,6 +5,15 @@ declare interface Locale {
   reference: string;
 }
 
+declare interface Order {
+  client: string;
+  createdAt: Date;
+  location: Locale;
+  items: Product[];
+  price: number;
+  phone: string;
+}
+
 declare interface ICreateOrder {
   orderId: number;
   client: string;

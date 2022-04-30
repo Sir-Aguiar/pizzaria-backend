@@ -33,7 +33,29 @@ class CreateOrder {
         catch (e) {
             return {
                 status: false,
-                error: e
+                error: e,
+            };
+        }
+    }
+    async execute() {
+        const docLocal = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Pedidos", this.orderId.toString());
+        const orderDoc = {
+            client: this.client,
+            createdAt: this.createdAt,
+            items: this.items,
+            location: this.location,
+            phone: this.phone,
+            price: this.price,
+        };
+        try {
+            const credentials = await this.setCredentials();
+            await (0, firestore_1.setDoc)(docLocal, orderDoc);
+            return credentials;
+        }
+        catch (e) {
+            return {
+                status: false,
+                error: e,
             };
         }
     }
