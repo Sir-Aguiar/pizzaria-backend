@@ -1,4 +1,3 @@
-
 declare interface Locale {
   bairro: string;
   rua: string;
@@ -7,11 +6,11 @@ declare interface Locale {
 }
 
 declare interface ICreateOrder {
-  order_id: number;
+  orderId: number;
   client: string;
-  created_at: Date;
+  createdAt: Date;
   location: Locale;
   items: Product[];
   price: number;
-  phone:string;
+  phone: string;
 }

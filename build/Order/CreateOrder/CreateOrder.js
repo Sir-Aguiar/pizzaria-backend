@@ -3,62 +3,37 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateOrder = void 0;
 const firestore_1 = require("firebase/firestore");
 const FirebaseInitialize_1 = require("../../Firebase/FirebaseInitialize");
+const generateUniqCodeScript_1 = require("../../generateUniqCodeScript");
 class CreateOrder {
-    constructor(props, status = "Pendente") {
-        this.props = props;
-        this.order_id = props.order_id;
-        this.client = props.client;
-        this.description = props.description;
-        this.produtos = props.items;
-        this.price = props.price;
-        this.endereco = props.location;
-        this.data = props.created_at;
-        this.phone = props.phone;
-        this.status = status;
+    constructor(client, location, items, price, phone) {
+        this.client = client;
+        this.location = location;
+        this.items = items;
+        this.price = price;
+        this.phone = phone;
+        this.createdAt = new Date();
+        this.orderId = new generateUniqCodeScript_1.UniqScript().uniqCode;
     }
-    generateCredential() {
-        let preCredential = "";
-        for (let index = 0; index < 7; index++) {
-            const randomNumber = `${Math.abs(Math.round(Math.random() * 9999999))}`;
-            preCredential += `${randomNumber[Math.abs(Math.round(Math.random() * randomNumber.length - 1))]}`;
-        }
-        const orderCode = Number(preCredential);
-        return orderCode;
-    }
-    async execute(test = false) {
-        const collectionString = `${test ? "Pedidos_Teste" : "Pedidos"}`;
-        const credentialCode = this.generateCredential();
-        const orderDocLocale = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, collectionString, this.order_id);
-        const credentialDocLocale = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Credenciais", credentialCode.toString());
+    async setCredentials() {
         try {
-            await (0, firestore_1.setDoc)(orderDocLocale, {
-                id: this.order_id,
-                cliente: this.client,
-                description: this.description,
-                produtos: this.produtos,
-                data: this.data,
-                preco: this.price,
-                endereco: this.endereco,
-                status: this.status,
-                code: credentialCode,
-                tel: this.phone
-            });
-            await (0, firestore_1.setDoc)(credentialDocLocale, {
+            const docLocal = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Credentials", this.client);
+            const credentialDoc = {
                 client: this.client,
-                order: this.order_id,
-            });
+                code: this.orderId,
+            };
+            await (0, firestore_1.setDoc)(docLocal, credentialDoc);
             return {
                 status: true,
                 credentials: {
-                    passCode: credentialCode,
+                    passCode: this.orderId,
                     client: this.client,
                 },
             };
         }
-        catch (error) {
+        catch (e) {
             return {
                 status: false,
-                error: error,
+                error: e
             };
         }
     }
