@@ -38,18 +38,32 @@ class CreateOrder {
         }
     }
     async execute() {
+        const orderItems = [];
+        this.items.forEach((item) => {
+            orderItems.push({
+                _id: item._id,
+                description: item.description,
+                name: item.name,
+                price: item.price,
+            });
+        });
         const docLocal = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Pedidos", this.orderId.toString());
         const orderDoc = {
             client: this.client,
             createdAt: this.createdAt,
-            items: this.items,
-            location: this.location,
+            items: orderItems,
+            location: {
+                bairro: this.location.bairro,
+                casa: this.location.casa,
+                reference: this.location.reference,
+                rua: this.location.rua,
+            },
             phone: this.phone,
             price: this.price,
         };
         try {
-            const credentials = await this.setCredentials();
             await (0, firestore_1.setDoc)(docLocal, orderDoc);
+            const credentials = await this.setCredentials();
             return credentials;
         }
         catch (e) {

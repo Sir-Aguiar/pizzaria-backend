@@ -5,11 +5,19 @@ declare interface Locale {
   reference: string;
 }
 
+declare interface OrderBody {
+  client: string;
+  location: Locale;
+  items: ClientProduct[];
+  price: number;
+  phone: string;
+}
+
 declare interface Order {
   client: string;
   createdAt: Date;
   location: Locale;
-  items: Product[];
+  items: ClientProduct[];
   price: number;
   phone: string;
 }
@@ -19,7 +27,7 @@ declare interface ICreateOrder {
   client: string;
   createdAt: Date;
   location: Locale;
-  items: Product[];
+  items: ClientProduct[];
   price: number;
   phone: string;
 }

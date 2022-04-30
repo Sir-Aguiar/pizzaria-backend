@@ -8,6 +8,12 @@ declare interface Product {
   name: string;
   price: string;
 }
+declare interface ClientProduct {
+  _id: number;
+  description: string;
+  name: string;
+  price: string;
+}
 declare interface CreateProduct {
   description: string;
   images: {
