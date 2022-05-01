@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { OrdersDB } from "../../Firebase/FirebaseInitialize";
 import { UniqScript } from "../../generateUniqCodeScript";
 class CreateOrder implements ICreateOrder {
@@ -15,20 +15,36 @@ class CreateOrder implements ICreateOrder {
     this.createdAt = new Date();
     this.orderId = new UniqScript().uniqCode;
   }
+  private async checkCredentials(): Promise<boolean> {
+    const docRef = collection(OrdersDB, "Credentials");
+    const docQuery = where("phone", "==", this.phone);
+    const queryDoc = await getDocs(query(docRef, docQuery));
+    if (queryDoc.size > 0) {
+      return false;
+    }
+    return true;
+  }
   private async setCredentials() {
     try {
-      const docLocal = doc(OrdersDB, "Credentials", this.client);
-      const credentialDoc = {
-        client: this.client,
-        code: this.orderId,
-      };
-      await setDoc(docLocal, credentialDoc);
-      return {
-        status: true,
-        credentials: {
-          passCode: this.orderId,
+      if (await this.checkCredentials()) {
+        const docLocal = doc(OrdersDB, "Credentials", this.orderId.toString());
+        const credentialDoc = {
           client: this.client,
-        },
+          code: this.orderId,
+          phone: this.phone,
+        };
+        await setDoc(docLocal, credentialDoc);
+        return {
+          status: true,
+          credentials: {
+            passCode: this.orderId,
+            client: this.client,
+          },
+        };
+      }
+      return {
+        status: false,
+        error: "Pedido já existente neste número",
       };
     } catch (e) {
       return {

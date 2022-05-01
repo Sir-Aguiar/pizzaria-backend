@@ -1,8 +1,7 @@
 export declare class RemoveOrder {
     readonly orderId: string;
-    readonly passCode: string;
-    constructor(orderId: string, passCode: string);
-    execute(test?: boolean): Promise<{
+    constructor(orderId: string);
+    execute(): Promise<{
         status: string;
         error?: undefined;
     } | {

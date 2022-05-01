@@ -14,20 +14,36 @@ class CreateOrder {
         this.createdAt = new Date();
         this.orderId = new generateUniqCodeScript_1.UniqScript().uniqCode;
     }
+    async checkCredentials() {
+        const docRef = (0, firestore_1.collection)(FirebaseInitialize_1.OrdersDB, "Credentials");
+        const docQuery = (0, firestore_1.where)("phone", "==", this.phone);
+        const queryDoc = await (0, firestore_1.getDocs)((0, firestore_1.query)(docRef, docQuery));
+        if (queryDoc.size > 0) {
+            return false;
+        }
+        return true;
+    }
     async setCredentials() {
         try {
-            const docLocal = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Credentials", this.client);
-            const credentialDoc = {
-                client: this.client,
-                code: this.orderId,
-            };
-            await (0, firestore_1.setDoc)(docLocal, credentialDoc);
-            return {
-                status: true,
-                credentials: {
-                    passCode: this.orderId,
+            if (await this.checkCredentials()) {
+                const docLocal = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Credentials", this.orderId.toString());
+                const credentialDoc = {
                     client: this.client,
-                },
+                    code: this.orderId,
+                    phone: this.phone,
+                };
+                await (0, firestore_1.setDoc)(docLocal, credentialDoc);
+                return {
+                    status: true,
+                    credentials: {
+                        passCode: this.orderId,
+                        client: this.client,
+                    },
+                };
+            }
+            return {
+                status: false,
+                error: "Pedido já existente neste número",
             };
         }
         catch (e) {

@@ -2,12 +2,12 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { OrdersDB } from "../../Firebase/FirebaseInitialize";
 
 export class RemoveOrder {
-  constructor(readonly orderId: string, readonly passCode: string) {}
+  constructor(readonly orderId: string) {}
 
-  public async execute(test = false) {
+  public async execute() {
     try {
-      await deleteDoc(doc(OrdersDB, `${test ? "Pedidos_Teste" : "Pedidos"}`, this.orderId));
-      await deleteDoc(doc(OrdersDB, "Credenciais", this.passCode));
+      await deleteDoc(doc(OrdersDB, "Pedidos", this.orderId));
+      await deleteDoc(doc(OrdersDB, "Credentials", this.orderId));
       return {
         status: "Pedido removido",
       };

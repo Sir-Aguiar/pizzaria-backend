@@ -18,6 +18,6 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.post("/new-order", CreateOrderController_1.CreateOrderController);
-app.delete("/remove-order/:orderId/:passCode", RemoveOrderController_1.RemoveOrderController);
+app.delete("/remove-order/:orderId", RemoveOrderController_1.RemoveOrderController);
 app.get("/get-products/:org", GetProductsController_1.GetProductsController);
 app.post("/new-product/:store/:food_type", InsertProductController_1.InsertProductController);

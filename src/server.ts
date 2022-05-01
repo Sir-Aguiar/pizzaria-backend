@@ -14,7 +14,7 @@ app.use(
 app.use(express.json());
 
 app.post("/new-order", CreateOrderController);
-app.delete("/remove-order/:orderId/:passCode", RemoveOrderController);
+app.delete("/remove-order/:orderId", RemoveOrderController);
 app.get("/get-products/:org", GetProductsController);
 app.post("/new-product/:store/:food_type", InsertProductController);
 export { app };
