@@ -6,6 +6,7 @@ declare class CreateOrder implements ICreateOrder {
     readonly phone: string;
     readonly createdAt: Date;
     readonly orderId: number;
+    readonly OrderDoc: Order;
     constructor(client: string, location: Locale, items: ClientProduct[], price: number, phone: string);
     private checkCredentials;
     private setCredentials;

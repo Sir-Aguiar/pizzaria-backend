@@ -4,6 +4,7 @@ import { UniqScript } from "../../generateUniqCodeScript";
 class CreateOrder implements ICreateOrder {
   readonly createdAt: Date;
   readonly orderId: number;
+  readonly OrderDoc: Order;
 
   constructor(
     readonly client: string,
@@ -14,60 +15,19 @@ class CreateOrder implements ICreateOrder {
   ) {
     this.createdAt = new Date();
     this.orderId = new UniqScript().uniqCode;
-  }
-  private async checkCredentials(): Promise<boolean> {
-    const docRef = collection(OrdersDB, "Credentials");
-    const docQuery = where("phone", "==", this.phone);
-    const queryDoc = await getDocs(query(docRef, docQuery));
-    if (queryDoc.size > 0) {
-      return false;
-    }
-    return true;
-  }
-  private async setCredentials() {
-    try {
-      if (await this.checkCredentials()) {
-        const docLocal = doc(OrdersDB, "Credentials", this.orderId.toString());
-        const credentialDoc = {
-          client: this.client,
-          code: this.orderId,
-          phone: this.phone,
-        };
-        await setDoc(docLocal, credentialDoc);
-        return {
-          status: true,
-          credentials: {
-            passCode: this.orderId,
-            client: this.client,
-          },
-        };
-      }
-      return {
-        status: false,
-        error: "Pedido já existente neste número",
-      };
-    } catch (e) {
-      return {
-        status: false,
-        error: e,
-      };
-    }
-  }
-  public async execute() {
-    const orderItems: ClientProduct[] = [];
-    this.items.forEach((item) => {
-      orderItems.push({
-        _id: item._id,
-        description: item.description,
-        name: item.name,
-        price: item.price,
-      });
-    });
-    const docLocal = doc(OrdersDB, "Pedidos", this.orderId.toString());
-    const orderDoc: Order = {
+
+    this.OrderDoc = {
       client: this.client,
       createdAt: this.createdAt,
-      items: orderItems,
+      // Creating an array from the items recieved (This catches undefined fields)
+      items: Array.from(items, (item) => {
+        return {
+          _id: item._id,
+          description: item.description,
+          name: item.name,
+          price: item.price,
+        };
+      }),
       location: {
         bairro: this.location.bairro,
         casa: this.location.casa,
@@ -77,16 +37,58 @@ class CreateOrder implements ICreateOrder {
       phone: this.phone,
       price: this.price,
     };
+  }
+
+  private async checkCredentials(): Promise<boolean> {
+    const docRef = collection(OrdersDB, "Credentials");
+    const docQuery = where("phone", "==", this.phone);
+    const queryDoc = await getDocs(query(docRef, docQuery));
+    if (queryDoc.size > 0) return false;
+    return true;
+  }
+
+  private async setCredentials() {
     try {
-      await setDoc(docLocal, orderDoc);
-      const credentials = await this.setCredentials();
-      return credentials;
+      const docLocal = doc(OrdersDB, "Credentials", this.orderId.toString());
+      await setDoc(docLocal, {
+        client: this.client,
+        code: this.orderId,
+        phone: this.phone,
+      });
+
+      return {
+        status: true,
+        credentials: {
+          passCode: this.orderId,
+          client: this.client,
+        },
+      };
     } catch (e) {
       return {
         status: false,
         error: e,
       };
     }
+  }
+  public async execute() {
+    const docLocal = doc(OrdersDB, "Pedidos", this.orderId.toString());
+
+    if (await this.checkCredentials()) {
+      try {
+        await setDoc(docLocal, this.OrderDoc);
+        return await this.setCredentials();
+      } catch (e) {
+        return {
+          status: false,
+          error: e,
+        };
+      }
+    }
+    // Case credentials already exists
+    return {
+      status: false,
+      error: "Pedido já existente neste número",
+    };
   }
 }
 
