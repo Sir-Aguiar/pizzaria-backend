@@ -23,9 +23,9 @@ const InsertProductController = async (req: Request, res: Response) => {
   };
   try {
     const myProduct = new InsertNewProduct(acessCredentials, newProduct, food_type, store);
-    const response = await myProduct.insertProduct();
+    const orderId = await myProduct.insertProduct();
     res.status(201).json({
-      code: response,
+      code: orderId,
     });
   } catch (error: any) {
     res.status(400).json({

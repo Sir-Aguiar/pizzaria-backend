@@ -10,6 +10,7 @@ class InsertNewProduct {
     private foodType: string,
     private store: string
   ) {}
+
   private async IsCredentialsValid(): Promise<boolean> {
     const documentRef = doc(OrdersDB, "Users", this.credentials.employee);
     const userDocument = (await getDoc(documentRef)) as DocumentSnapshot<EmployeeOnDataBase>;
@@ -18,6 +19,7 @@ class InsertNewProduct {
     }
     return false;
   }
+  
   public async insertProduct() {
     if (await this.IsCredentialsValid()) {
       const myCode = new UniqScript();
