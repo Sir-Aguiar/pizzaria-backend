@@ -14,7 +14,11 @@ class InsertNewProduct {
   private async IsCredentialsValid(): Promise<boolean> {
     const documentRef = doc(OrdersDB, "Users", this.credentials.employee);
     const userDocument = (await getDoc(documentRef)) as DocumentSnapshot<EmployeeOnDataBase>;
-    if (Number(this.credentials._id) === userDocument.data()?._id && this.credentials.employee === userDocument.id && this.store === userDocument.data()?.store) {
+    if (
+      Number(this.credentials._id) === userDocument.data()?._id &&
+      this.credentials.employee === userDocument.id &&
+      this.store === userDocument.data()?.store
+    ) {
       return true;
     }
     return false;

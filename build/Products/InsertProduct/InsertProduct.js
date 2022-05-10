@@ -14,7 +14,9 @@ class InsertNewProduct {
     async IsCredentialsValid() {
         const documentRef = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Users", this.credentials.employee);
         const userDocument = (await (0, firestore_1.getDoc)(documentRef));
-        if (Number(this.credentials._id) === userDocument.data()?._id && this.credentials.employee === userDocument.id && this.store === userDocument.data()?.store) {
+        if (Number(this.credentials._id) === userDocument.data()?._id &&
+            this.credentials.employee === userDocument.id &&
+            this.store === userDocument.data()?.store) {
             return true;
         }
         return false;
