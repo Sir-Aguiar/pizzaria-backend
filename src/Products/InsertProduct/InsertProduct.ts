@@ -14,19 +14,19 @@ class InsertNewProduct {
   private async IsCredentialsValid(): Promise<boolean> {
     const documentRef = doc(OrdersDB, "Users", this.credentials.employee);
     const userDocument = (await getDoc(documentRef)) as DocumentSnapshot<EmployeeOnDataBase>;
-    if (Number(this.credentials._id) === userDocument.data()?._id && this.credentials.employee === userDocument.id) {
+    if (Number(this.credentials._id) === userDocument.data()?._id && this.credentials.employee === userDocument.id && this.store === userDocument.data()?.store) {
       return true;
     }
     return false;
   }
-  
+
   public async insertProduct() {
     if (await this.IsCredentialsValid()) {
-      const myCode = new UniqScript();
+      const myCode = new UniqScript().uniqCode;
       const docReference = doc(OrdersDB, "Menus", this.store);
       const InsertingObject: any = {};
       InsertingObject[this.foodType] = arrayUnion({
-        _id: myCode.uniqCode,
+        _id: myCode,
         description: this.newProduct.description,
         images: {
           medium: this.newProduct.images.medium,
@@ -36,7 +36,7 @@ class InsertNewProduct {
         price: this.newProduct.price,
       });
       await updateDoc(docReference, InsertingObject);
-      return myCode.uniqCode;
+      return myCode;
     }
     throw new Error("Credenciais de acesso inválidas");
   }

@@ -14,18 +14,18 @@ class InsertNewProduct {
     async IsCredentialsValid() {
         const documentRef = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Users", this.credentials.employee);
         const userDocument = (await (0, firestore_1.getDoc)(documentRef));
-        if (Number(this.credentials._id) === userDocument.data()?._id && this.credentials.employee === userDocument.id) {
+        if (Number(this.credentials._id) === userDocument.data()?._id && this.credentials.employee === userDocument.id && this.store === userDocument.data()?.store) {
             return true;
         }
         return false;
     }
     async insertProduct() {
         if (await this.IsCredentialsValid()) {
-            const myCode = new generateUniqCodeScript_1.UniqScript();
+            const myCode = new generateUniqCodeScript_1.UniqScript().uniqCode;
             const docReference = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Menus", this.store);
             const InsertingObject = {};
             InsertingObject[this.foodType] = (0, firestore_1.arrayUnion)({
-                _id: myCode.uniqCode,
+                _id: myCode,
                 description: this.newProduct.description,
                 images: {
                     medium: this.newProduct.images.medium,
@@ -35,7 +35,7 @@ class InsertNewProduct {
                 price: this.newProduct.price,
             });
             await (0, firestore_1.updateDoc)(docReference, InsertingObject);
-            return myCode.uniqCode;
+            return myCode;
         }
         throw new Error("Credenciais de acesso inválidas");
     }
