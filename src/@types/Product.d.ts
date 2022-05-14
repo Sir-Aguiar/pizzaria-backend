@@ -30,6 +30,6 @@ declare interface EmployeeCredential {
 declare interface EmployeeOnDataBase {
   _id: number;
   store: string;
-  level: string;
+  level: number;
 }
 declare type HeaderArgument = string | string[] | undefined;

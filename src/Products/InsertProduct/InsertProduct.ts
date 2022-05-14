@@ -17,8 +17,10 @@ class InsertNewProduct {
     if (
       Number(this.credentials._id) === userDocument.data()?._id &&
       this.credentials.employee === userDocument.id &&
-      this.store === userDocument.data()?.store
+      this.store === userDocument.data()?.store &&
+      userDocument.data()?.level === 0
     ) {
+      this.store = userDocument.data()?.store || "#";
       return true;
     }
     return false;
