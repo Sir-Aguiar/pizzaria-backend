@@ -33,3 +33,9 @@ declare interface EmployeeOnDataBase {
   level: number;
 }
 declare type HeaderArgument = string | string[] | undefined;
+declare interface StoreLayout {
+  Bebidas: Product[];
+  Lanches: Product[];
+  Pizzas: Product[];
+  Ofertas:Product[]
+}
