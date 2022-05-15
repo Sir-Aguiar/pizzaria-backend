@@ -1,5 +1,5 @@
 import { arrayRemove, doc, updateDoc, getDoc } from "firebase/firestore";
-import { AreEmployeeCredentialsValid } from "../../CheckEmployeeCredenttials";
+import { AreEmployeeCredentialsValid } from "../../CheckEmployeeCredentials";
 import { OrdersDB } from "../../Firebase/FirebaseInitialize";
 
 class RemoveProduct {

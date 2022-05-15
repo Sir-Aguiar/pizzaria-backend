@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RemoveProduct = void 0;
 const firestore_1 = require("firebase/firestore");
-const CheckEmployeeCredenttials_1 = require("../../CheckEmployeeCredenttials");
+const CheckEmployeeCredentials_1 = require("../../CheckEmployeeCredentials");
 const FirebaseInitialize_1 = require("../../Firebase/FirebaseInitialize");
 class RemoveProduct {
     constructor(store, _id, foodType, credentials) {
@@ -26,7 +26,7 @@ class RemoveProduct {
         return referedProduct[0];
     }
     async execute() {
-        if (await (0, CheckEmployeeCredenttials_1.AreEmployeeCredentialsValid)(this.credentials, this.store)) {
+        if (await (0, CheckEmployeeCredentials_1.AreEmployeeCredentialsValid)(this.credentials, this.store)) {
             const productToBeRemoved = await this.GetProductObject();
             const updateDocument = {};
             updateDocument[this.foodType] = (0, firestore_1.arrayRemove)(productToBeRemoved);

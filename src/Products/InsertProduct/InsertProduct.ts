@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { arrayUnion, doc, DocumentSnapshot, getDoc, updateDoc } from "firebase/firestore";
-import { AreEmployeeCredentialsValid } from "../../CheckEmployeeCredenttials";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { AreEmployeeCredentialsValid } from "../../CheckEmployeeCredentials";
 import { OrdersDB } from "../../Firebase/FirebaseInitialize";
 import { UniqScript } from "../../generateUniqCodeScript";
 
