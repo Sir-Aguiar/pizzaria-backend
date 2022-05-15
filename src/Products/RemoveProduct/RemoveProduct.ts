@@ -1,5 +1,5 @@
-import { arrayRemove, doc, updateDoc, getDoc, DocumentData, DocumentSnapshot } from "firebase/firestore";
-import { CheckEmployeeCredentials } from "../../entities/Employee";
+import { arrayRemove, doc, updateDoc, getDoc } from "firebase/firestore";
+import { AreEmployeeCredentials } from "../../CheckEmployeeCredenttials";
 import { OrdersDB } from "../../Firebase/FirebaseInitialize";
 
 class RemoveProduct {
@@ -14,22 +14,27 @@ class RemoveProduct {
     const docRef = doc(OrdersDB, "Menus", this.store);
     const referedDocument = await getDoc(docRef);
     const result = referedDocument.data() || [];
-    const referedProduct = result[this.foodType].map((bebida: { _id: number }) => {
-      if (bebida._id === 3332322) {
-        return bebida;
+    const referedProduct = result[this.foodType].map((product: { _id: number }) => {
+      if (product._id === this._id) {
+        return product;
       }
     });
-    if (referedProduct.length !== 0) return false;
+    if (referedProduct.length !== 1) {
+      throw new Error("Produto não pôde ser encontrado");
+    }
     return referedProduct[0];
   }
-  public async RemoveProduct() {
-    if (await CheckEmployeeCredentials(this.credentials, this.store)) {
+
+  public async execute() {
+    if (await AreEmployeeCredentials(this.credentials, this.store)) {
       const productToBeRemoved = await this.GetProductObject();
       const updateDocument: any = {};
       updateDocument[this.foodType] = arrayRemove(productToBeRemoved);
-      await updateDoc(doc(OrdersDB, "Menus", this.store), { updateDocument });
-      return true;
+      await updateDoc(doc(OrdersDB, "Menus", this.store), updateDocument);
     }
-    return false;
   }
 }
+
+/* const myCl = new RemoveProduct("TestePizzariaMenu", 3332322, "Bebidas", { _id: "4867312", employee: "Felipe Aguiar" });
+myCl.execute().then((res) => console.log(res)); */
+export { RemoveProduct };

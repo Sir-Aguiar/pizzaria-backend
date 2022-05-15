@@ -1,6 +1,7 @@
 import { doc, DocumentSnapshot, getDoc } from "firebase/firestore";
-import { OrdersDB } from "../Firebase/FirebaseInitialize";
-export const CheckEmployeeCredentials = async (credentials: EmployeeCredential, store: string) => {
+import { OrdersDB } from "./Firebase/FirebaseInitialize";
+
+const AreEmployeeCredentials = async (credentials: EmployeeCredential, store: string) => {
   const documentRef = doc(OrdersDB, "Users", credentials.employee);
   const userDocument = (await getDoc(documentRef)) as DocumentSnapshot<EmployeeOnDataBase>;
   if (
@@ -11,5 +12,7 @@ export const CheckEmployeeCredentials = async (credentials: EmployeeCredential, 
   ) {
     return true;
   }
-  return false;
+  if (userDocument.data()?.level !== 0) throw new Error("Você não tem permissão para fazer isso");
+  throw new Error("Credenciais inválidas");
 };
+export { AreEmployeeCredentials };
