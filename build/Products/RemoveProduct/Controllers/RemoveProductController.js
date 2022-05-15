@@ -11,8 +11,10 @@ const RemoveProductController = async (req, res) => {
     const rmvProduct = new RemoveProduct_1.RemoveProduct(store, Number(food_id), food_type, credentials);
     rmvProduct
         .execute()
-        .then((response) => {
-        res.status(200).send();
+        .then(() => {
+        res.status(200).json({
+            message: "Produto removido com sucesso",
+        });
     })
         .catch((e) => {
         res.status(400).json({
