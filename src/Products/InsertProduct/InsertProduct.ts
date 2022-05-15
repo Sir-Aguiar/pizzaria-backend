@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { arrayUnion, doc, DocumentSnapshot, getDoc, updateDoc } from "firebase/firestore";
+import { AreEmployeeCredentialsValid } from "../../CheckEmployeeCredenttials";
 import { OrdersDB } from "../../Firebase/FirebaseInitialize";
 import { UniqScript } from "../../generateUniqCodeScript";
 
@@ -10,24 +11,8 @@ class InsertNewProduct {
     private foodType: string,
     private store: string
   ) {}
-
-  private async IsCredentialsValid(): Promise<boolean> {
-    const documentRef = doc(OrdersDB, "Users", this.credentials.employee);
-    const userDocument = (await getDoc(documentRef)) as DocumentSnapshot<EmployeeOnDataBase>;
-    if (
-      Number(this.credentials._id) === userDocument.data()?._id &&
-      this.credentials.employee === userDocument.id &&
-      this.store === userDocument.data()?.store &&
-      userDocument.data()?.level === 0
-    ) {
-      this.store = userDocument.data()?.store || "#";
-      return true;
-    }
-    return false;
-  }
-
   public async insertProduct() {
-    if (await this.IsCredentialsValid()) {
+    if (await AreEmployeeCredentialsValid(this.credentials, this.store)) {
       const myCode = new UniqScript().uniqCode;
       const docReference = doc(OrdersDB, "Menus", this.store);
       const InsertingObject: any = {};

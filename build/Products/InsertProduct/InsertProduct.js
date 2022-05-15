@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InsertNewProduct = void 0;
 const firestore_1 = require("firebase/firestore");
+const CheckEmployeeCredenttials_1 = require("../../CheckEmployeeCredenttials");
 const FirebaseInitialize_1 = require("../../Firebase/FirebaseInitialize");
 const generateUniqCodeScript_1 = require("../../generateUniqCodeScript");
 class InsertNewProduct {
@@ -11,20 +12,8 @@ class InsertNewProduct {
         this.foodType = foodType;
         this.store = store;
     }
-    async IsCredentialsValid() {
-        const documentRef = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Users", this.credentials.employee);
-        const userDocument = (await (0, firestore_1.getDoc)(documentRef));
-        if (Number(this.credentials._id) === userDocument.data()?._id &&
-            this.credentials.employee === userDocument.id &&
-            this.store === userDocument.data()?.store &&
-            userDocument.data()?.level === 0) {
-            this.store = userDocument.data()?.store || "#";
-            return true;
-        }
-        return false;
-    }
     async insertProduct() {
-        if (await this.IsCredentialsValid()) {
+        if (await (0, CheckEmployeeCredenttials_1.AreEmployeeCredentialsValid)(this.credentials, this.store)) {
             const myCode = new generateUniqCodeScript_1.UniqScript().uniqCode;
             const docReference = (0, firestore_1.doc)(FirebaseInitialize_1.OrdersDB, "Menus", this.store);
             const InsertingObject = {};
