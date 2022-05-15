@@ -34,7 +34,4 @@ class RemoveProduct {
     }
   }
 }
-
-/* const myCl = new RemoveProduct("TestePizzariaMenu", 3332322, "Bebidas", { _id: "4867312", employee: "Felipe Aguiar" });
-myCl.execute().then((res) => console.log(res)); */
 export { RemoveProduct };
