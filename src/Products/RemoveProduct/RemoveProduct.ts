@@ -1,5 +1,5 @@
 import { arrayRemove, doc, updateDoc, getDoc } from "firebase/firestore";
-import { AreEmployeeCredentials } from "../../CheckEmployeeCredenttials";
+import { AreEmployeeCredentialsValid } from "../../CheckEmployeeCredenttials";
 import { OrdersDB } from "../../Firebase/FirebaseInitialize";
 
 class RemoveProduct {
@@ -26,7 +26,7 @@ class RemoveProduct {
   }
 
   public async execute() {
-    if (await AreEmployeeCredentials(this.credentials, this.store)) {
+    if (await AreEmployeeCredentialsValid(this.credentials, this.store)) {
       const productToBeRemoved = await this.GetProductObject();
       const updateDocument: any = {};
       updateDocument[this.foodType] = arrayRemove(productToBeRemoved);
