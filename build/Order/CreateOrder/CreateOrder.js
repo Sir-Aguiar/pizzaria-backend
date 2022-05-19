@@ -5,14 +5,18 @@ const firestore_1 = require("firebase/firestore");
 const FirebaseInitialize_1 = require("../../Firebase/FirebaseInitialize");
 const generateUniqCodeScript_1 = require("../../generateUniqCodeScript");
 class CreateOrder {
-    constructor(client, location, items, price, phone) {
+    constructor(client, location, items, phone, payment) {
         this.client = client;
         this.location = location;
         this.items = items;
-        this.price = price;
         this.phone = phone;
+        this.payment = payment;
+        this.price = 0;
         this.createdAt = new Date();
         this.orderId = new generateUniqCodeScript_1.UniqScript().uniqCode;
+        this.items.forEach((item) => {
+            this.price += Number(item.price.replace(",", "."));
+        });
         this.OrderDoc = {
             client: this.client,
             createdAt: this.createdAt,
@@ -32,6 +36,7 @@ class CreateOrder {
             },
             phone: this.phone,
             price: this.price,
+            payment: this.payment,
         };
     }
     async checkCredentials() {

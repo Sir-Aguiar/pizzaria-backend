@@ -20,6 +20,7 @@ declare interface Order {
   items: ClientProduct[];
   price: number;
   phone: string;
+  payment: string;
 }
 
 declare interface ICreateOrder {
@@ -30,4 +31,5 @@ declare interface ICreateOrder {
   items: ClientProduct[];
   price: number;
   phone: string;
+  payment: string;
 }

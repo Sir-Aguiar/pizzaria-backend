@@ -2,10 +2,10 @@ import { Request, Response } from "express";
 import { CreateOrder } from "../CreateOrder";
 
 const CreateOrderController = async (req: Request, res: Response) => {
-  const { location, client, items, price, phone } = req.body;
-  const Order = new CreateOrder(client, location, items, price, phone);
+  const { location, client, items, phone, payment } = req.body;
+  const Order = new CreateOrder(client, location, items, phone, payment);
   const { error, credentials } = await Order.execute();
-  
+
   if (error) {
     res.status(400);
     return res.json({

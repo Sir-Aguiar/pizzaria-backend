@@ -5,16 +5,19 @@ class CreateOrder implements ICreateOrder {
   readonly createdAt: Date;
   readonly orderId: number;
   readonly OrderDoc: Order;
-
+  public price = 0;
   constructor(
     readonly client: string,
     readonly location: Locale,
     readonly items: ClientProduct[],
-    readonly price: number,
-    readonly phone: string
+    readonly phone: string,
+    readonly payment: string
   ) {
     this.createdAt = new Date();
     this.orderId = new UniqScript().uniqCode;
+    this.items.forEach((item) => {
+      this.price += Number(item.price.replace(",", "."));
+    });
 
     this.OrderDoc = {
       client: this.client,
@@ -36,6 +39,7 @@ class CreateOrder implements ICreateOrder {
       },
       phone: this.phone,
       price: this.price,
+      payment: this.payment,
     };
   }
 
