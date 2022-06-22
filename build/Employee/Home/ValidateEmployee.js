@@ -10,11 +10,14 @@ const ValidateEmployee = async (id) => {
         const foundDocs = await (0, firestore_1.getDocs)((0, firestore_1.query)(docRef, docFilter));
         const docs = foundDocs.docs;
         if (docs.length != 1)
-            return false;
-        return true;
+            return { status: false };
+        return {
+            status: true,
+            employee: docs[0].data(),
+        };
     }
     catch (e) {
-        return false;
+        return { status: false };
     }
 };
 exports.ValidateEmployee = ValidateEmployee;
