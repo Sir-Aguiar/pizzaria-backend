@@ -22,6 +22,6 @@ app.use(express_1.default.json());
 app.post("/new-order", CreateOrderController_1.CreateOrderController);
 app.delete("/remove-order/:orderId", RemoveOrderController_1.RemoveOrderController);
 app.get("/get-products/:org", GetProductsController_1.GetProductsController);
-app.get("/funcionario/:id", ValidateEmployeeController_1.EmployeeController);
+app.get("/funcionario/:id/:name", ValidateEmployeeController_1.EmployeeController);
 app.post("/new-product/:store/:food_type", InsertProductController_1.InsertProductController);
 app.delete("/remove-product/:store/:food_type/:food_id", RemoveProductController_1.RemoveProductController);

@@ -1,14 +1,21 @@
 import { Request, Response } from "express";
-import { pathing } from "../../../server";
-import { ValidateEmployee } from "../ValidateEmployee";
+import { AreEmployeeCredentialsValid } from "../../../CheckEmployeeCredentials";
 
 export const EmployeeController = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const EmployeeState = await ValidateEmployee(Number(id));
-  if (EmployeeState.status) {
-    return res.status(200).json({
-      employee: EmployeeState.employee,
+  const { id, name } = req.params;
+  const store = req.header("store") as string;
+  try {
+    await AreEmployeeCredentialsValid(
+      {
+        _id: id,
+        name: name,
+      },
+      store
+    );
+    res.status(200).send();
+  } catch (e: any) {
+    res.status(400).json({
+      error: e.message,
     });
   }
-  return res.status(400);
 };

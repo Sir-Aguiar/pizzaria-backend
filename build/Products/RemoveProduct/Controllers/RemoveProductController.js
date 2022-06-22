@@ -6,7 +6,7 @@ const RemoveProductController = async (req, res) => {
     const { store, food_type, food_id } = req.params;
     const credentials = {
         _id: req.header("_id") || "",
-        employee: req.header("employee") || "",
+        name: req.header("employee") || "",
     };
     const rmvProduct = new RemoveProduct_1.RemoveProduct(store, Number(food_id), food_type, credentials);
     rmvProduct

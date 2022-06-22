@@ -23,15 +23,7 @@ declare interface CreateProduct {
   name: string;
   price: string;
 }
-declare interface EmployeeCredential {
-  _id: string;
-  employee: string;
-}
-declare interface EmployeeOnDataBase {
-  _id: number;
-  store: string;
-  level: number;
-}
+
 declare type HeaderArgument = string | string[] | undefined;
 declare interface StoreLayout {
   Bebidas: Product[];

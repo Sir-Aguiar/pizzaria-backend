@@ -1,15 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmployeeController = void 0;
-const ValidateEmployee_1 = require("../ValidateEmployee");
+const CheckEmployeeCredentials_1 = require("../../../CheckEmployeeCredentials");
 const EmployeeController = async (req, res) => {
-    const { id } = req.params;
-    const EmployeeState = await (0, ValidateEmployee_1.ValidateEmployee)(Number(id));
-    if (EmployeeState.status) {
-        return res.status(200).json({
-            employee: EmployeeState.employee,
+    const { id, name } = req.params;
+    const store = req.header("store");
+    try {
+        await (0, CheckEmployeeCredentials_1.AreEmployeeCredentialsValid)({
+            _id: id,
+            name: name,
+        }, store);
+        res.status(200).send();
+    }
+    catch (e) {
+        res.status(400).json({
+            error: e.message,
         });
     }
-    return res.status(400);
 };
 exports.EmployeeController = EmployeeController;

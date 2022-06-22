@@ -3,9 +3,9 @@ import { RemoveProduct } from "../RemoveProduct";
 
 const RemoveProductController = async (req: Request, res: Response) => {
   const { store, food_type, food_id } = req.params;
-  const credentials = {
+  const credentials:EmployeeCredential = {
     _id: req.header("_id") || "",
-    employee: req.header("employee") || "",
+    name: req.header("employee") || "",
   };
   const rmvProduct = new RemoveProduct(store, Number(food_id), food_type, credentials);
   rmvProduct

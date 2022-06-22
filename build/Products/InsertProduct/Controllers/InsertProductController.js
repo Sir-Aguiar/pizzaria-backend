@@ -18,7 +18,7 @@ const InsertProductController = async (req, res) => {
     };
     const acessCredentials = {
         _id: _id,
-        employee: employee,
+        name: employee,
     };
     try {
         const myProduct = new InsertProduct_1.InsertNewProduct(acessCredentials, newProduct, food_type, store);

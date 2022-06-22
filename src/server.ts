@@ -19,7 +19,7 @@ app.use(express.json());
 app.post("/new-order", CreateOrderController);
 app.delete("/remove-order/:orderId", RemoveOrderController);
 app.get("/get-products/:org", GetProductsController);
-app.get("/funcionario/:id", EmployeeController);
+app.get("/funcionario/:id/:name", EmployeeController);
 app.post("/new-product/:store/:food_type", InsertProductController);
 app.delete("/remove-product/:store/:food_type/:food_id", RemoveProductController);
 export { app };
