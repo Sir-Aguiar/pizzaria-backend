@@ -21,6 +21,7 @@ declare interface Order {
   price: number;
   phone: string;
   payment: string;
+  status: number;
 }
 
 declare interface ICreateOrder {

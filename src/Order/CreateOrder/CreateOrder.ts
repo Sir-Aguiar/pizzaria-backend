@@ -40,6 +40,7 @@ class CreateOrder implements ICreateOrder {
       phone: this.phone,
       price: this.price,
       payment: this.payment,
+      status:1
     };
   }
 
