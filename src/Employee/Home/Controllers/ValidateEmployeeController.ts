@@ -12,9 +12,11 @@ export const EmployeeController = async (req: Request, res: Response) => {
       },
       store
     );
-    res.status(200).send();
+    res.status(200).json({
+      message:"Validated"
+    });
   } catch (e: any) {
-    res.status(400).json({
+    res.status(401).json({
       error: e.message,
     });
   }
