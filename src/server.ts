@@ -7,6 +7,7 @@ import cors from "cors";
 import { InsertProductController } from "./Products/InsertProduct/Controllers/InsertProductController";
 import { RemoveProductController } from "./Products/RemoveProduct/Controllers/RemoveProductController";
 import { EmployeeController } from "./Employee/Home/Controllers/ValidateEmployeeController";
+import { GetOrdersController } from "./Order/GetOrders/Controllers/GetOrdersController";
 
 const app = express();
 app.use(
@@ -16,10 +17,11 @@ app.use(
 );
 app.use(express.json());
 
-app.post("/new-order", CreateOrderController);
-app.delete("/remove-order/:orderId", RemoveOrderController);
 app.get("/get-products/:org", GetProductsController);
 app.get("/funcionario/:id/:name", EmployeeController);
+app.get("/get-orders", GetOrdersController);
+app.post("/new-order", CreateOrderController);
 app.post("/new-product/:store/:food_type", InsertProductController);
+app.delete("/remove-order/:orderId", RemoveOrderController);
 app.delete("/remove-product/:store/:food_type/:food_id", RemoveProductController);
 export { app };
