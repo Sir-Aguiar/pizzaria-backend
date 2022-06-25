@@ -10,6 +10,8 @@ const GetOrdersController = async (req, res) => {
     (0, CheckEmployeeCredentials_1.AreEmployeeCredentialsValid)({ _id, name }, store).then(() => {
         (0, GetOrders_1.GetOrders)().then((response) => {
             res.status(200).json({ orders: response });
+        }, (error) => {
+            res.status(404).json({ error: error.message });
         });
     }, (error) => {
         res.status(401).json({ error: error.message });

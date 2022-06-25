@@ -9,9 +9,14 @@ const GetOrdersController = async (req: Request, res: Response) => {
   AreEmployeeCredentialsValid({ _id, name }, store).then(
     // Employee valid
     () => {
-      GetOrders().then((response) => {
-        res.status(200).json({ orders: response });
-      });
+      GetOrders().then(
+        (response) => {
+          res.status(200).json({ orders: response });
+        },
+        (error) => {
+          res.status(404).json({ error: error.message });
+        }
+      );
     },
     // Employee not valid
     (error) => {
