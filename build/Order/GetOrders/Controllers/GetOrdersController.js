@@ -7,11 +7,12 @@ const GetOrdersController = async (req, res) => {
     const name = req.header("name");
     const _id = req.header("id");
     const store = req.header("store");
-    if (await (0, CheckEmployeeCredentials_1.AreEmployeeCredentialsValid)({ _id, name }, store)) {
-        return res.status(200).json({
-            orders: await (0, GetOrders_1.GetOrders)(),
+    (0, CheckEmployeeCredentials_1.AreEmployeeCredentialsValid)({ _id, name }, store).then(() => {
+        (0, GetOrders_1.GetOrders)().then((response) => {
+            res.status(200).json({ orders: response });
         });
-    }
-    return res.status(400).send();
+    }, (error) => {
+        res.status(401).json({ error: error.message });
+    });
 };
 exports.GetOrdersController = GetOrdersController;

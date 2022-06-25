@@ -6,11 +6,17 @@ const GetOrdersController = async (req: Request, res: Response) => {
   const name = req.header("name")!;
   const _id = req.header("id")!;
   const store = req.header("store")!;
-  if (await AreEmployeeCredentialsValid({ _id, name }, store)) {
-    return res.status(200).json({
-      orders: await GetOrders(),
-    });
-  }
-  return res.status(400).send();
+  AreEmployeeCredentialsValid({ _id, name }, store).then(
+    // Employee valid
+    () => {
+      GetOrders().then((response) => {
+        res.status(200).json({ orders: response });
+      });
+    },
+    // Employee not valid
+    (error) => {
+      res.status(401).json({ error: error.message });
+    }
+  );
 };
 export { GetOrdersController };
