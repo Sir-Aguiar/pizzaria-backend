@@ -7,7 +7,6 @@ const GetOrders = async () => {
     try {
         const colReference = (0, firestore_1.collection)(FirebaseInitialize_1.OrdersDB, "Pedidos");
         const Orders = (await (0, firestore_1.getDocs)(colReference));
-        console.log(Orders.docChanges());
         return Orders.docs.map((doc) => doc.data());
     }
     catch (e) {
