@@ -32,7 +32,7 @@ class CreateOrder {
                 bairro: this.location.bairro,
                 casa: this.location.casa,
                 reference: this.location.reference,
-                rua: this.location.rua,
+                address: this.location.address,
             },
             phone: this.phone,
             price: this.price,
