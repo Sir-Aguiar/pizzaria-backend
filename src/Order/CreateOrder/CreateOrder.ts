@@ -36,6 +36,7 @@ class CreateOrder implements ICreateOrder {
         casa: this.location.casa,
         reference: this.location.reference,
         address: this.location.address,
+        cep:this.location.cep
       },
       phone: this.phone,
       price: this.price,
