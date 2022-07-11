@@ -9,6 +9,7 @@ import { RemoveProductController } from "./Products/RemoveProduct/Controllers/Re
 import { EmployeeController } from "./Employee/Home/Controllers/ValidateEmployeeController";
 import { GetOrdersController } from "./Order/GetOrders/Controllers/GetOrdersController";
 import { ValidateOrderController } from "./Order/ValidateOrder/Controllers/ValidateOrderController";
+import { FindOrderController } from "./Order/FindOrder/Controller/FindOrderController";
 
 const app = express();
 app.use(
@@ -21,6 +22,7 @@ app.use(express.json());
 app.get("/get-products/:org", GetProductsController);
 app.get("/funcionario/:id/:name", EmployeeController);
 app.get("/get-orders", GetOrdersController);
+app.get("/find-order/:order_code", FindOrderController);
 app.post("/new-order", CreateOrderController);
 app.post("/new-product/:store/:food_type", InsertProductController);
 app.put("/validate-order", ValidateOrderController);

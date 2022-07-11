@@ -15,6 +15,7 @@ const RemoveProductController_1 = require("./Products/RemoveProduct/Controllers/
 const ValidateEmployeeController_1 = require("./Employee/Home/Controllers/ValidateEmployeeController");
 const GetOrdersController_1 = require("./Order/GetOrders/Controllers/GetOrdersController");
 const ValidateOrderController_1 = require("./Order/ValidateOrder/Controllers/ValidateOrderController");
+const FindOrderController_1 = require("./Order/FindOrder/Controller/FindOrderController");
 const app = (0, express_1.default)();
 exports.app = app;
 app.use((0, cors_1.default)({
@@ -24,6 +25,7 @@ app.use(express_1.default.json());
 app.get("/get-products/:org", GetProductsController_1.GetProductsController);
 app.get("/funcionario/:id/:name", ValidateEmployeeController_1.EmployeeController);
 app.get("/get-orders", GetOrdersController_1.GetOrdersController);
+app.get("/find-order/:order_code", FindOrderController_1.FindOrderController);
 app.post("/new-order", CreateOrderController_1.CreateOrderController);
 app.post("/new-product/:store/:food_type", InsertProductController_1.InsertProductController);
 app.put("/validate-order", ValidateOrderController_1.ValidateOrderController);
